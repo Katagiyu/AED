@@ -1,0 +1,141 @@
+
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+/**
+ *
+ * @author joao
+ */
+public class CodigoReferenciaProjeto03 extends JFrame {
+
+    FileInputStream arquivo;
+    DataInputStream leitor;
+    int caractere;
+    String linha;
+    String lista[];
+
+    JTextField campoNome;
+    JTextField campoDataNascimento;
+    JTextField campoCpf;
+
+    public CodigoReferenciaProjeto03()
+    {
+        this.setLayout(null);
+        this.setBounds(0,0,640,480);
+        this.setTitle("Navegador de Dados");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    campoNome = new JTextField("");
+    campoNome.setBounds(50, 50, 300, 25);
+
+    campoDataNascimento = new JTextField("");
+    campoDataNascimento.setBounds(50, 90, 300, 25);
+
+    campoCpf = new JTextField("");
+    campoCpf.setBounds(50, 130, 300, 25);
+
+    this.getContentPane().add(campoNome);
+    this.getContentPane().add(campoDataNascimento);
+    this.getContentPane().add(campoCpf);
+
+botaoProximo = new JButton("Próximo");
+botaoProximo.setBounds(50, 180, 100, 30);
+this.getContentPane().add(botaoProximo);
+
+botaoAntes = new JButton("Dado anterior");
+botaoAntes.setBounds(160, 180, 100, 30);
+this.getContentPane().add(botaoAntes);
+
+botaoPrimeiroDado = new JButton("Primeiro dado");
+botaoPrimeiroDado.setBounds(270, 180, 100, 30);
+this.getContentPane().add(botaoPrimeiroDado);
+
+botaoUltimoDado = new JButton("Último dado");
+botaoUltimoDado.setBounds(380, 180, 100, 30);
+this.getContentPane().add(botaoUltimoDado);
+
+/*botaoProximo.addActionListener(e -> {
+    if (!dados.isEmpty()) {
+        indiceAtual = (indiceAtual + 1) % dados.size();
+        String[] registro = dados.get(indiceAtual);
+        campoNome.setText(registro[0]);
+        campoDataNascimento.setText(registro[1]);
+        campoCpf.setText(registro[2]);
+    }
+});
+
+botaoAntes.addActionListener(e -> {
+    if (!dados.isEmpty()) {
+        indiceAtual = (indiceAtual - 1 + dados.size()) % dados.size();
+        String[] registro = dados.get(indiceAtual);
+        campoNome.setText(registro[0]);
+        campoDataNascimento.setText(registro[1]);
+        campoCpf.setText(registro[2]);
+    }
+});
+
+botaoPrimeiroDado.addActionListener(e -> {
+    if (!dados.isEmpty()) {
+        indiceAtual = 0;
+        String[] registro = dados.get(indiceAtual);
+        campoNome.setText(registro[0]);
+        campoDataNascimento.setText(registro[1]);
+        campoCpf.setText(registro[2]);
+    }
+});
+
+botaoUltimoDado.addActionListener(e -> {
+    if (!dados.isEmpty()) {
+        indiceAtual = dados.size() - 1;
+        String[] registro = dados.get(indiceAtual);
+        campoNome.setText(registro[0]);
+        campoDataNascimento.setText(registro[1]);
+        campoCpf.setText(registro[2]);
+    }
+});*/
+
+
+        leArquivo();
+    }
+
+    public void leArquivo()
+    {
+        try
+        {
+            arquivo = new FileInputStream("dados.txt");
+            leitor = new DataInputStream(arquivo);
+            linha = "";
+            while (caractere != -1)
+            {
+                caractere = leitor.read();
+                if (caractere != -1 && caractere != 10)
+                    linha += (char) caractere;
+
+                if (caractere == 10)
+                {
+                    System.out.println(linha);
+                    lista = linha.split(";");
+                    System.out.println("Nome = " + lista[0]);
+                    campoNome.setText(lista[0]);
+                    System.out.println("Data de Nascimento = " + lista[1]);
+                    System.out.println("CPF = " + lista[2]);
+                    linha = "";
+                }
+            }
+            arquivo.close();
+        }
+        catch (IOException erro)
+        {
+            System.out.println("Arquivo nao encontrado...");
+        }
+    }
+
+    public static void main(String args[])
+    {
+        CodigoReferenciaProjeto03 aplicacao = new CodigoReferenciaProjeto03();
+        aplicacao.setVisible(true);
+    }
+}
